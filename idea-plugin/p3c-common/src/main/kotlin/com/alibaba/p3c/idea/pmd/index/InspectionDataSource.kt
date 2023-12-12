@@ -26,6 +26,8 @@ import java.io.InputStream
  * @date 2016/12/11
  */
 class InspectionDataSource(private val fileContent: FileContent) : DataSource {
+    override fun close() {
+    }
 
     @Throws(IOException::class)
     override fun getInputStream(): InputStream {

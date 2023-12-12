@@ -1,7 +1,7 @@
 <idea-plugin>
-    <id>com.alibaba.p3c.smartfox</id>
-    <name>Alibaba Java Coding Guidelines(Fix Some Bug)</name>
-    <description>Alibaba Java Coding Guidelines plugin support.</description>
+    <id>com.tiamaes.cloud.p3c</id>
+    <name>Tiamaes Java Coding Guidelines</name>
+    <description>Tiamaes Java Coding Guidelines plugin support.</description>
 
     <change-notes>
         <![CDATA[
@@ -82,10 +82,8 @@
         </ul>
         ]]>
     </change-notes>
-    <vendor>Jack Chu</vendor>
-    <version>2.1.1</version>
-    <idea-version since-build="183.4284"/>
-<!--    <depends optional="true">com.intellij.velocity</depends>-->
+    <vendor>Tiamaes</vendor>
+    <version>1.0.1</version>
     <depends optional="true" config-file="p3c.xml">com.intellij.modules.java</depends>
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.lang</depends>

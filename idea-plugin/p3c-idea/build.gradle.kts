@@ -2,26 +2,21 @@ plugins {
     id("org.jetbrains.intellij")
 }
 
-val ideaVersion = rootProject.ext.get("ideaVersion") as String
-val yearVersion = rootProject.ext.get("yearVersion") as Int
-val noVersion = rootProject.ext.get("noVersion") as Int
-val myPlugins = rootProject.ext.get("myPlugins") as Set<*>
-
 intellij {
-    version.set(ideaVersion)
-    plugins.set(myPlugins)
-    pluginName.set("${property("plugin_name")}")
+    type.set("IC")
+    version.set("${property("ideaVersion")}")
+    pluginName.set("${property("pluginName")}")
+    plugins.set(listOf("vcs-git", "java"))
     updateSinceUntilBuild.set(false)
-    sandboxDir.set("idea-sandbox")
+    jreRepository.set("https://intellij-repository.tiamaes.com/intellij-jbr")
 }
 
 tasks {
     patchPluginXml {
-        sinceBuild.set("${yearVersion}${noVersion}.0")
-        untilBuild.set("${yearVersion}${noVersion}.*")
-        pluginId.set("io.github.godfather1103.alibaba.p3c")
+        sinceBuild.set("232")
+        untilBuild.set("232.*")
         pluginDescription.set(
-            """
+                """
 <h1>English Readme：</h1>
 <h2>The plugin conflicts with the official plugin. Please uninstall the original plugin before installing this plugin</h2>
 <p>Alibaba Java Coding Guidelines plugin support.Fix some bug.such as <a href="https://github.com/alibaba/p3c/issues/898">issues-898</a>,<a href="https://github.com/alibaba/p3c/issues/900">issues-900</a></p>
@@ -35,47 +30,25 @@ tasks {
         """.trimIndent()
         )
         changeNotes.set(
-            """
-        <ul>
-        1.3
-        <li>增加自定义namelist.properties的功能(Tools->P3C Configure)</li>
-        </ul>
-        <ul>
-        <ul>
-        1.2
-        <li>fix(存储): 优化数据存储，修复mac无法切换中英文的bug</li>
-        <li>feat(切换语言): 优化切换语言的操作，增加重启的窗口</li>
-        </ul>
-        <ul>
-        1.1
-        <li>优化对于2023.2的API调度</li>
-        <li>优化对应分析结果信息分组</li>
-        </ul>
-        <ul>
-        1.0
-        <li>fix(<a href="https://github.com/alibaba/p3c/issues/898">issues-898</a>): 1、修复2022.1中检测到缺失override注解出现异常；2、修复编译异常</li>
-        <li>fix(<a href="https://github.com/alibaba/p3c/issues/900">issues-900</a>): 修复驼峰等自动修改异常</li>
-        </ul>
+                """
+<ul>
+1.0.1-2023.2
+<li>Compatible with IntelliJ IDEA Community 2023.2</li>
+<li>Upgrade kotlin-gradle-plugin to 1.9.21</li>
+<li>Upgrade gradle-intellij-plugin to 1.14.2</li>
+</ul>
         """.trimIndent()
         )
     }
 
     publishPlugin {
-        project.findProperty("ORG_GRADLE_PROJECT_intellijPublishToken")?.let {
-            token.set(it as String)
-        }
+        token.set(findProperty("intellijPublishToken") as String)
     }
 
     signPlugin {
-        project.findProperty("signing.certificateChainFile")?.let {
-            certificateChainFile.set(file(it as String))
-        }
-        project.findProperty("signing.privateKeyFile")?.let {
-            privateKeyFile.set(file(it as String))
-        }
-        project.findProperty("signing.password")?.let {
-            password.set(it as String)
-        }
+        certificateChainFile.set(file(providers.gradleProperty("intellijMarketSignerChain").get()))
+        privateKeyFile.set(file(providers.gradleProperty("intellijMarketSignerPrivate").get()))
+        password.set(providers.gradleProperty("intellijMarketSignerPrivatePassword").get())
     }
 
     initializeIntelliJPlugin {
@@ -83,15 +56,17 @@ tasks {
     }
 
     downloadZipSigner {
-        cliPath.set("${project.allprojects.find { it.name == "p3c-idea" }!!.projectDir.absolutePath}/tools/marketplace-zip-signer-cli.jar")
+        cliPath.set(providers.gradleProperty("intellijMarketSignerPath"))
+        cli.set(file(cliPath))
     }
 
+    publish.configure {
+        enabled = false
+    }
 }
 
-version = "${property("plugin_version")}-${ideaVersion}-${property("p3c_pmd_version")}"
-
 dependencies {
-    implementation("org.freemarker:freemarker:2.3.25-incubating")
+    implementation("org.freemarker:freemarker:2.3.31")
     implementation(project(":p3c-common"))
-    implementation("org.javassist:javassist:3.21.0-GA")
+    implementation("org.javassist:javassist:3.29.2-GA")
 }

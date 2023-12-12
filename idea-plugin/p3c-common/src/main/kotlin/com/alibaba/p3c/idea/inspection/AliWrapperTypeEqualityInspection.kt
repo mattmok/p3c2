@@ -21,12 +21,15 @@ import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.util.Key
 import com.intellij.psi.CommonClassNames
 import com.intellij.psi.JavaTokenType
 import com.intellij.psi.PsiArrayType
 import com.intellij.psi.PsiBinaryExpression
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiExpression
+import com.intellij.psi.impl.source.tree.java.PsiBinaryExpressionImpl
+import com.intellij.psi.tree.IElementType
 import com.intellij.util.IncorrectOperationException
 import com.siyeh.ig.BaseInspection
 import com.siyeh.ig.BaseInspectionVisitor
@@ -49,9 +52,10 @@ class AliWrapperTypeEqualityInspection : BaseInspection, AliBaseInspection {
     /**
      * For Javassist
      */
+    @Suppress("unused", "UNUSED_PARAMETER")
     constructor(any: Any?) : this()
 
-    val familyName = "$replaceWith equals"
+    private val familyName = "$replaceWith equals"
 
     override fun buildErrorString(vararg infos: Any?): String {
         return P3cBundle.getMessage("com.alibaba.p3c.idea.inspection.rule.WrapperTypeEqualityRule.errMsg")
@@ -73,7 +77,7 @@ class AliWrapperTypeEqualityInspection : BaseInspection, AliBaseInspection {
         return "AliWrapperTypeEquality"
     }
 
-    override fun getStaticDescription(): String? {
+    override fun getStaticDescription(): String {
         return RuleInspectionUtils.getRuleStaticDescription(ruleName())
     }
 
@@ -83,7 +87,7 @@ class AliWrapperTypeEqualityInspection : BaseInspection, AliBaseInspection {
 
     public override fun buildFix(vararg infos: Any): InspectionGadgetsFix? {
         if (infos.isEmpty()) {
-            return DecorateInspectionGadgetsFix(EqualityToEqualsFix(), familyName)
+            return null
         }
         val type = infos[0] as PsiArrayType
         val componentType = type.componentType
@@ -129,10 +133,10 @@ class AliWrapperTypeEqualityInspection : BaseInspection, AliBaseInspection {
         InspectionGadgetsFix() {
 
         override fun getName(): String {
-            if (deepEquals) {
-                return "$replaceWith 'Arrays.deepEquals()'"
+            return if (deepEquals) {
+                "$replaceWith 'Arrays.deepEquals()'"
             } else {
-                return "$replaceWith 'Arrays.equals()'"
+                "$replaceWith 'Arrays.equals()'"
             }
         }
 
