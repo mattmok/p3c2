@@ -15,11 +15,7 @@
  */
 package com.alibaba.p3c.idea.util
 
-import com.alibaba.p3c.idea.quickfix.AvoidStartWithDollarAndUnderLineNamingQuickFix
-import com.alibaba.p3c.idea.quickfix.ClassMustHaveAuthorQuickFix
-import com.alibaba.p3c.idea.quickfix.ConstantFieldShouldBeUpperCaseQuickFix
-import com.alibaba.p3c.idea.quickfix.LowerCamelCaseVariableNamingQuickFix
-import com.alibaba.p3c.idea.quickfix.VmQuietReferenceQuickFix
+import com.alibaba.p3c.idea.quickfix.*
 import com.intellij.codeInspection.LocalQuickFix
 
 /**

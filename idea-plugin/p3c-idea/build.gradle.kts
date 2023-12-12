@@ -13,8 +13,7 @@ intellij {
 
 tasks {
     patchPluginXml {
-        sinceBuild.set("232")
-        untilBuild.set("232.*")
+        sinceBuild.set("233")
         pluginDescription.set(
                 """
 <h1>English Readme：</h1>
@@ -32,8 +31,8 @@ tasks {
         changeNotes.set(
                 """
 <ul>
-1.0.1-2023.2
-<li>Compatible with IntelliJ IDEA Community 2023.2</li>
+1.0.1-2023.3
+<li>Compatible with IntelliJ IDEA Community 2023.3</li>
 <li>Upgrade kotlin-gradle-plugin to 1.9.21</li>
 <li>Upgrade gradle-intellij-plugin to 1.14.2</li>
 </ul>
