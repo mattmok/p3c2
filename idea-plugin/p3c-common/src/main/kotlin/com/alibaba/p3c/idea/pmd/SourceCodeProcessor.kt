@@ -239,12 +239,12 @@ class SourceCodeProcessor(
             onlyTheFlyCache = CacheBuilder.newBuilder().concurrencyLevel(16)
                 .expireAfterWrite(expireTime, TimeUnit.MILLISECONDS)
                 .maximumSize(300)
-                .build<String, Node>()!!
+                .build()
 
             userTriggerNodeCache = CacheBuilder.newBuilder().concurrencyLevel(16)
                 .expireAfterWrite(10, TimeUnit.MINUTES)
                 .maximumSize(300)
-                .build<String, Node>()!!
+                .build()
         }
 
         fun invalidateCache(file: String) {

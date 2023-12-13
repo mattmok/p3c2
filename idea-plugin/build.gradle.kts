@@ -1,47 +1,24 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    java
+    id("java")
+    id("org.jetbrains.kotlin.jvm")
 }
 
-buildscript {
-//    repositories {
-//        mavenLocal()
-//        maven {
-//            url = uri("https://oss.sonatype.org/content/repositories/snapshots/")
-//        }
-//        gradlePluginPortal()
-//        mavenCentral()
+//buildscript {
+////    repositories {
+////        mavenLocal()
+////        maven {
+////            url = uri("https://oss.sonatype.org/content/repositories/snapshots/")
+////        }
+////        gradlePluginPortal()
+////        mavenCentral()
+////    }
+//    dependencies {
+//        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.21")
+//        classpath("org.jetbrains.intellij.plugins:gradle-intellij-plugin:1.14.2")
 //    }
-    dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.21")
-        classpath("org.jetbrains.intellij.plugins:gradle-intellij-plugin:1.14.2")
-    }
-}
-
-//val ideaVersion = property("idea_version") as String
-//
-//val yearVersion = ideaVersion
-//    .split(".")
-//    .first()
-//    .substring(2)
-//    .toInt()
-//
-//val noVersion = ideaVersion
-//    .substring(ideaVersion.indexOf(".") + 1)
-//    .toInt()
-//
-//val myPlugins = when (yearVersion) {
-//    in 23..Int.MAX_VALUE -> setOf("vcs-git", "java")
-//    22 -> if (noVersion == 3) setOf("vcs-git", "java") else setOf("git4idea", "java")
-//    in 19..21 -> setOf("git4idea", "java")
-//    else -> setOf("git4idea")
 //}
-//
-//ext["ideaVersion"] = ideaVersion
-//ext["yearVersion"] = yearVersion
-//ext["noVersion"] = noVersion
-//ext["myPlugins"] = myPlugins
 
 subprojects {
 
@@ -86,7 +63,6 @@ subprojects {
             }
         }
         mavenCentral()
-        gradlePluginPortal()
     }
 
     dependencies {
